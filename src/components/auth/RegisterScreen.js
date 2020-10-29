@@ -16,8 +16,8 @@ export const RegisterScreen = () => {
     const [formValues, handleInputChange] = useForm({
         name: 'Karen',
         email: 'correo@mail.com',
-        password: '12345',
-        password2: '12345',
+        password: '123456',
+        password2: '123456',
         blood: 'o+'
     })
 
@@ -34,6 +34,7 @@ export const RegisterScreen = () => {
         //npm validator
         if(name.trim().length === 0){
             console.log('name is required')
+            //despachar accion actions/ui
             dispatch(setError('name is required'))
             return false
         }else if(!validator.isEmail(email)){

@@ -1,14 +1,30 @@
+import Swal from "sweetalert2";
 import { firebase, googleAuthProvider } from "../firebase/firebase-config";
+import { finishLoading, startLoading } from "./ui";
 const { types } = require("../types/types")
 
 //Accion asincrona
 export const startLoginEmailPassword = (email, password) =>{
     //regresa un callback
     //dispatch de thunk
+    //dispatch manda acciones a reducers
     return (dispatch) =>{
-        setTimeout(() => {
-            dispatch(login(123,'pedro'))
-        }, 3500);
+
+        dispatch(startLoading())
+
+        firebase.auth().signInWithEmailAndPassword(email, password)
+        .then( ({user}) =>{
+            dispatch(login(user.uid, user.displayName))
+
+            dispatch(finishLoading())
+        })
+        .catch( e => {
+            console.log(e)
+            //loading: false si falla login
+            dispatch(finishLoading())
+            //alerta error
+            Swal.fire('Error', e.message, 'error')
+        })
     }
 }
 //tarea asincrona regresa un callback
@@ -17,7 +33,7 @@ export const startRegister = (email, password, name) => {
         //crea y autentica a el usuario
         firebase.auth().createUserWithEmailAndPassword(email, password)
             .then( async({user}) => {
-                //actualizar objeto
+                //actualizar objeto para agregar displayname
                 await user.updateProfile({displayName: name})
                 console.log(user)
 
@@ -27,6 +43,7 @@ export const startRegister = (email, password, name) => {
             })
             .catch( e => {
                 console.log(e)
+                Swal.fire('Error', e.message, 'error')
             })
     }
 }
@@ -53,4 +70,19 @@ export const login = (uid, displayName) =>{
         }
     }
 }
+//Accion asincrona
+export const startLogout = () =>{
+    return async(dispatch) =>{
+        //esperar a que se ejcute
+        await firebase.auth().signOut();
+        //cuando termine de ejecutar
+        dispatch(logout())
 
+    }
+}
+
+
+export const logout = () =>({
+    //thunk manda a reducers authreducer regresa objeto vacio
+    type: types.logout
+})

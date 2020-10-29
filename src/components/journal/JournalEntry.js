@@ -1,28 +1,47 @@
+import moment from 'moment'
 import React from 'react'
+import { useDispatch } from 'react-redux'
+import { activeNote } from '../../actions/notes'
 
-export const JournalEntry = () => {
+export const JournalEntry = ({id, date, title, body, url}) => {
+
+    //npm moment js
+    const noteDate = moment(date)
+    const dispatch = useDispatch()
+
+    const handleEntryClick = () =>{
+        //Activar nota para su edicion
+        dispatch(
+            activeNote(id, {
+                date, title, body, url
+            })
+        )
+    }
+
     return (
-        <div className="journal__entry pointer">
-            <div
-                className="journal__entry-picture"
-                style={{
-                    backgroundSize: 'cover',
-                    backgroundImage: 'url(https://i.pinimg.com/236x/67/fa/87/67fa87c1886870e60b9cbe0f4cd620ae.jpg)'
-                }}
-            >
-            </div>
+        <div className="journal__entry pointer" onClick={handleEntryClick}>
+            {
+                url && 
+                <div
+                    className="journal__entry-picture"
+                    style={{
+                        backgroundSize: 'cover',
+                        backgroundImage: `url(${url})`
+                    }}
+                >
+                </div>
+            }
             <div className="journal__entry-body">
                 <p className="journal__entry-title">
-                    Title un nuevo día
+                    {title}
                 </p>
                 <p className="journal__entry-content">
-                    Content un nuevo día
-                    lorem ipsum in dius sesrrtsaav affjasf adfjdfjdsa ads dsaf dasfsda  sdfasdfj ojioj
+                    {body}
                 </p>
             </div>
             <div className="journal__entry-date-box">
-                <span>Monday</span>
-                <h4>28</h4>
+                <span>{noteDate.format('dddd')}</span>
+                <h4>{noteDate.format('Do')}</h4>
             </div>
         </div>
     )

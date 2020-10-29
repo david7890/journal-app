@@ -1,16 +1,20 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
+import validator from 'validator'
 import {startGoogleLogin, startLoginEmailPassword } from '../../actions/auth'
+import { removeError, setError } from '../../actions/ui'
 import { useForm } from '../../hooks/useForm'
 
 export const LoginScreen = () => {
 
     const dispatch = useDispatch()
+    //traer info del state
+    const {loading, msgError  } = useSelector(state => state.ui)
 
     const [formValues, handleInputChange] = useForm({
         email: 'correo@gmail.cim',
-        password: '12345'
+        password: '123456'
     })
 
     const {email, password} = formValues
@@ -22,22 +26,44 @@ export const LoginScreen = () => {
         console.log(email)
         //hacer dispatch
         //login recibe uid, displayNAme
-        dispatch(startLoginEmailPassword(email, password))
-
+        if (isFormLoginValid()){
+            dispatch(startLoginEmailPassword(email, password))
+        }
     }
 
     const handleGoogleLogin = () =>{
         dispatch(startGoogleLogin())
     }
 
+    const isFormLoginValid = () =>{
+        if (!validator.isEmail(email)){
+            dispatch(setError('email is not valid'))
+            return false
+        }
+
+        dispatch(removeError())
+        return true
+    }
+
     return (
         <div>
             <h2 className="auth__title">LoginScreen</h2>
             <form onSubmit={handleLogin}>
+
+                {
+                    //si no es null mostrar caja 
+                    msgError && (
+                        <div className="auth__alert">
+                            {msgError}
+                        </div>
+                    )
+                        
+                }
+
                 <input value={email} onChange={handleInputChange} className="auth__input" type="text" placeholder="email" name="email"/>
                 <input value={password} onChange={handleInputChange} className="auth__input" type="password" placeholder="password" name="password"/>
                     
-                <button  className="butn butn-primary butn-block mt-01" type="submit">
+                <button disabled={loading} className="butn butn-primary butn-block mt-01" type="submit">
                     Login
                 </button>
                 <hr className="mt-01"></hr>
