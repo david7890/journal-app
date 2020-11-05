@@ -6,12 +6,11 @@ const initialState = {
 }
 
 export const uiReducer = (state = initialState, action) =>{
-    console.log(action.type)
-    //
+    //console.log(action.type)
     switch (action.type) {
         case types.uiSetError:
             return{
-                //regresa state como lo encuentre
+                //...state regresa state como lo encuentre
                 ...state,
                 msgError: action.payload
             }

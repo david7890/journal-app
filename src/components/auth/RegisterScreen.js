@@ -54,7 +54,7 @@ export const RegisterScreen = () => {
     return (
         <div>
             <h2 className="auth__title">Register Screen</h2>
-            <form onSubmit={handleRegister}>
+            <form onSubmit={handleRegister} className="animate__animated animate__fadeIn animate__faster">
 
                 {
                     //si no es null mostrar caja 

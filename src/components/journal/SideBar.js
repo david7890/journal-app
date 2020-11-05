@@ -16,7 +16,6 @@ export const SideBar = () => {
 
     const handleAddNew = () =>{
         dispatch(startNewNote())
-        console.log('CLICK')
     }
 
     return (

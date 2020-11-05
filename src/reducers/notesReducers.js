@@ -27,9 +27,16 @@ export const notesReducer = (state = initialState, action) => {
                     ...action.payload
                 }
             }
+        case types.notesAddNew:
+            return{
+                ...state,
+                ///action.payload pone nota al principio
+                //...state.notes crea una copia de las notas
+                notes: [action.payload, ...state.notes]
+            }
 
         case types.notesLoad:
-            console.log(action.payload)
+            //console.log(action.payload)
             return{
                 ...state,
                 //action.payload es un arreglo
@@ -47,6 +54,20 @@ export const notesReducer = (state = initialState, action) => {
                         ? action.payload.note
                         : note
                 )
+            }
+
+        case types.notesDelete:
+            return{
+                ...state,
+                active: null,
+                notes: state.notes.filter(note => note.id !== action.payload)
+            }
+        case types.notesLogoutCleaning:
+            return{
+                ...state,
+                active: null,
+                //arreglo vacio
+                notes: []
             }
         default:
             return state;

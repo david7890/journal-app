@@ -6,12 +6,12 @@ import { Nothing } from './Nothing'
 import { SideBar } from './SideBar'
 
 export const JournalScreen = () => {
-
+    //nota activa
     const {active} = useSelector(state => state.notes)
-    console.log(active)     
+    //console.log(active)     
 
     return (
-        <div className="journal__main">
+        <div className="journal__main animate__animated animate__fadeIn animate__faster">
             <SideBar />
 
             <main>

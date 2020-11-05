@@ -48,7 +48,7 @@ export const LoginScreen = () => {
     return (
         <div>
             <h2 className="auth__title">LoginScreen</h2>
-            <form onSubmit={handleLogin}>
+            <form onSubmit={handleLogin} className="animate__animated animate__fadeIn animate__faster">
 
                 {
                     //si no es null mostrar caja 
