@@ -10,15 +10,32 @@ const firebaseConfig = {
     storageBucket: "react-app-522b0.appspot.com",
     messagingSenderId: "863324713773",
     appId: "1:863324713773:web:0e029c07cfc1d5031799a4"
-  };
-  // Initialize Firebase
-  firebase.initializeApp(firebaseConfig);
+};
 
-  const db = firebase.firestore()
-  const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
+var firebaseConfigTesting = {
+    apiKey: "AIzaSyAuXBFP-2OgHqkMINE9iUOaSVxUFIbCHqY",
+    authDomain: "birthdayapp-fce53.firebaseapp.com",
+    databaseURL: "https://birthdayapp-fce53.firebaseio.com",
+    projectId: "birthdayapp-fce53",
+    storageBucket: "birthdayapp-fce53.appspot.com",
+    messagingSenderId: "468014628757",
+    appId: "1:468014628757:web:d16c992708112c75bf009c"
+}
 
-  export {
-      db,
-      googleAuthProvider,
-      firebase,
-  }
+if(process.env.NODE_ENV === 'test'){
+    firebase.initializeApp(firebaseConfigTesting)
+}else{
+    //dev / production
+    // Initialize Firebase
+    firebase.initializeApp(firebaseConfig);
+
+}
+
+const db = firebase.firestore()
+const googleAuthProvider = new firebase.auth.GoogleAuthProvider()
+
+export {
+    db,
+    googleAuthProvider,
+    firebase,
+}
