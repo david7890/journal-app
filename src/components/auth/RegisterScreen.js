@@ -14,11 +14,11 @@ export const RegisterScreen = () => {
 
     //manejar formualrio
     const [formValues, handleInputChange] = useForm({
-        name: 'Karen',
-        email: 'correo@mail.com',
-        password: '123456',
-        password2: '123456',
-        blood: 'o+'
+        name: '',
+        email: '',
+        password: '',
+        password2: '',
+        blood: ''
     })
 
     const {name, email, password, password2, blood} = formValues
